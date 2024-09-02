@@ -2,7 +2,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import handleError from "./middlewares/errorHandler.middleware";
-import { registerRouter } from "./features/authentication";
+import authenticationRouter from "./features/authentication";
 
 const app = express();
 app.use(express.json());
@@ -13,7 +13,7 @@ if (process.env.NODE_ENV == "development")
     console.log("[server]: using cors");
 }
 
-app.use("/register", registerRouter);
+app.use("/auth", authenticationRouter);
 
 app.use(handleError);
 

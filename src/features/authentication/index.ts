@@ -1,3 +1,3 @@
-import registerRouter from "./routers/register.router";
+import authenticationRouter from "./routers/authentication.router";
 
-export { registerRouter };
+export default authenticationRouter;
