@@ -18,8 +18,8 @@ class UserEntity {
     public set password(value: string) { this.document.password = UserEntity.hashPassword(value) }
 
     public static createAsync = async(args: CreateUserArgs): Promise<UserEntity> => {
-        const { name, email, rawPassword } = args;
-        const hashedPassword = await this.hashPasswordAsync(rawPassword);
+        const { name, email, password } = args;
+        const hashedPassword = await this.hashPasswordAsync(password);
 
         const self = new UserEntity();
         self.document = await User.create({ name, email, password: hashedPassword });

@@ -13,7 +13,7 @@ if (process.env.NODE_ENV == "development")
     console.log("[server]: using cors");
 }
 
-app.use("/auth", authenticationRouter);
+app.use("/api/v1/auth", authenticationRouter);
 
 app.use(handleError);
 

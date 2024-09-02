@@ -1,7 +1,7 @@
 type CreateUserArgs = {
     name: string,
     email: string,
-    rawPassword: string
+    password: string
 };
 
 export { CreateUserArgs };
