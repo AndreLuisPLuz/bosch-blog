@@ -8,6 +8,7 @@ import { CreateUserArgs } from "../types/user.types";
 class UserEntity {
     private document: HydratedDocument<IUser, IUserMethods> = new User();
 
+    public get id() { return this.document._id }
     public get name() { return this.document.name }
     public get email() { return this.document.email }
     public get password() { return this.document.password }
@@ -32,6 +33,24 @@ class UserEntity {
             return [ null, false ];
 
         return [ this, true ];
+    };
+
+    public static findByEmailAsync = async (email: string): Promise<UserEntity | null> => {
+        const result = await User.findOne({
+            email: { $regex: email, $options: "i" }
+        }).exec();
+
+        if (result == null)
+            return null;
+
+        return this.loadFromDocument(result);
+    };
+
+    private static loadFromDocument = (document: HydratedDocument<IUser, IUserMethods>): UserEntity => {
+        var user = new UserEntity();
+        user.document = document;
+
+        return user;
     };
 
     private static hashPasswordAsync = async(rawPassword: string): Promise<string> => {
