@@ -4,7 +4,6 @@ import bcrypt from "bcryptjs";
 import { HydratedDocument } from "mongoose";
 import { IUser, IUserMethods, User } from "../schemas/user.schema";
 import { CreateUserArgs } from "../types/user.types";
-import { AppError } from "../errors";
 
 class UserEntity {
     private document: HydratedDocument<IUser, IUserMethods> = new User();
