@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import { HydratedDocument } from "mongoose";
 import { IUser, IUserMethods, User } from "../schemas/user.schema";
 import { CreateUserArgs } from "../types/user.types";
+import { AppError } from "../errors";
 
 class UserEntity {
     private document: HydratedDocument<IUser, IUserMethods> = new User();
@@ -26,9 +27,12 @@ class UserEntity {
         return self;
     };
 
-    public saveAsync = async(): Promise<{savedUser: UserEntity, success: boolean}> => {
+    public saveAsync = async(): Promise<[UserEntity | null, boolean]> => {
         const result = await this.document.trySave();
-        
+        if (!result.success)
+            return [ null, false ];
+
+        return [ this, true ];
     };
 
     private static hashPasswordAsync = async(rawPassword: string): Promise<string> => {
