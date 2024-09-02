@@ -2,8 +2,10 @@ import "dotenv/config"
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import UserEntity from "../../../entities/user.entity";
+
 import { AppError } from "../../../errors";
-import { LoginAttemptArgs, LoginToken } from "../types/login.types";
+import { LoginAttemptArgs } from "../api/requests/login.requests";
+import { LoginToken } from "../api/responses/login.responses";
 
 const loginAttemptService = async (payload: LoginAttemptArgs): Promise<LoginToken> => {
     const user = await UserEntity.findByEmailAsync(payload.email);
