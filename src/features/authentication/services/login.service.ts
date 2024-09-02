@@ -18,7 +18,7 @@ const loginAttemptService = async (payload: LoginAttemptArgs): Promise<LoginToke
 
     const secret = process.env.APP_SECRET_KEY;
     const token = jwt.sign(
-        { userId: user.id },
+        { userId: user.id.toString() },
         secret!,
         { expiresIn: '1 day' }
     );

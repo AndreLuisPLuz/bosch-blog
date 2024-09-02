@@ -35,6 +35,15 @@ class UserEntity {
         return [ this, true ];
     };
 
+    public static findById = async (id: string): Promise<UserEntity | null> => {
+        const result = await User.findById(id).exec();
+
+        if (result == null)
+            return null;
+
+        return this.loadFromDocument(result);
+    };
+
     public static findByEmailAsync = async (email: string): Promise<UserEntity | null> => {
         const result = await User.findOne({
             email: { $regex: email, $options: "i" }
