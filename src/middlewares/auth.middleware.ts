@@ -22,9 +22,8 @@ const authenticate = async(req: Request, res: Response, next: NextFunction) => {
 
     const user = UserEntity.findById(res.locals.userId);
 
-    if (!user) {
+    if (!user)
         throw new AppError("Claimed user not found.", 404);
-    }
 
     return next();
 };
