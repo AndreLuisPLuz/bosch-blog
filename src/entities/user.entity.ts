@@ -35,7 +35,7 @@ class UserEntity {
         return [ this, true ];
     };
 
-    public static findById = async (id: string): Promise<UserEntity | null> => {
+    public static findByIdAsync = async (id: string): Promise<UserEntity | null> => {
         const result = await User.findById(id).exec();
 
         if (result == null)
