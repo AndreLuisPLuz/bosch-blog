@@ -2,6 +2,12 @@ import { HydratedDocument, Types } from "mongoose";
 import { Article, IArticle, IArticleMethods } from "../schemas/article.schema";
 import { IUser, IUserMethods } from "../schemas/user.schema";
 import { ArticleCreateArgs } from "../types/article.types";
+import UserEntity from "./user.entity";
+
+type AuthorField = {
+    input?: Types.ObjectId | UserEntity,
+    output?: Types.ObjectId | HydratedDocument<IUser, IUserMethods>
+};
 
 class ArticleEntity {
     private document: HydratedDocument<IArticle, IArticleMethods> = new Article();
@@ -9,17 +15,17 @@ class ArticleEntity {
     public get id() { return this.document._id }
     public get title() { return this.document.title };
     public get text() { return this.document.text };
-    public get author() { return this.document.author };
+    public get author() { return { output: this.document.author } };
 
     public set title(value: string) { this.document.title = value };
     public set text(value: string) { this.document.text = value };
-    public set author(value: Types.ObjectId | HydratedDocument<IUser, IUserMethods>) {
-        if (value instanceof Types.ObjectId) {
-            this.document.author = value;
+    public set author(field: AuthorField) {
+        if (field.input! instanceof Types.ObjectId) {
+            this.document.author = field.input!;
             return;
         }
 
-        this.document.author = value._id;
+        this.document.author = field.input!.id;
     }
 
     public static createAsync = async (args: ArticleCreateArgs): Promise<ArticleEntity> => {
@@ -47,3 +53,5 @@ class ArticleEntity {
         return article;
     };
 }
+
+export default ArticleEntity;
